@@ -4,15 +4,19 @@
  * Author: JJ OBrien 
  * Date: 11/16/2020
  */
-
 #include "Particle.h"
 #ifndef KATELYN_TRAIN_H
     #include <KatelynTrain.h>
 #endif
+#include <DS18B20.h>
+#include <OneWire.h>
+
 
 //used to debounce potentiometer
 int lastPot = MIN_BITS_WITH_POT;
 int currentSpeed = 0;
+
+DS18B20  ds18b20(TEMP_PIN, true);
 
 // setup() runs once, when the device is first turned on.
 void setup() {
@@ -29,6 +33,9 @@ void loop() {
   Serial.println(currentSpeed);
   //poll the potentiometer to see if we need to change speed
   changeSpeedWithPotentiometer();
+
+  //make sure we aren't overheating
+  checkTemp();
   delay(2000);
 }
 
@@ -73,4 +80,19 @@ void changeSpeedWithPotentiometer(){
 
 int killSwitch(String argsNotImplemented){
   changeSpeed("0");
+}
+
+//function that shuts system down if it approaches overheating
+void checkTemp(){
+  //grab the temp using our handy library
+  float temperature = ds18b20.getTemperature();
+  Serial.print("temp: ");
+  Serial.println(temperature);
+  if (temperature > -900){
+      //convert to Fahrenheit
+      temperature = (temperature * 1.8) + 32;
+      if (temperature > OVERHEAT_TEMP){
+        changeSpeed("0");
+      }
+  }
 }

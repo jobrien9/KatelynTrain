@@ -9,6 +9,10 @@
 #define MAX_PWM 200
 #define MIN_PWM 150
 
+#define TEMP_PIN D3
+
+#define OVERHEAT_TEMP 150
+
 //the pot is paired with a 10K resistor on a voltage divider, so the lowest it will read is 1.65 V
 #define MIN_BITS_WITH_POT 2048
 
@@ -17,3 +21,4 @@ int killSwitch(String argsNotImplemented);
 void setup();
 void lool();
 void changeSpeedWithPotentiometer();
+void checkTemp();

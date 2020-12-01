@@ -6,6 +6,6 @@
         "*.ino": "cpp"
     },
     "particle.firmwareVersion": "1.5.2",
-    "particle.targetPlatform": "boron",
-    "particle.targetDevice": "TrainBoron"
+    "particle.targetPlatform": "photon",
+    "particle.targetDevice": "JJPhoton"
 }
